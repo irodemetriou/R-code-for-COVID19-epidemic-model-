@@ -1,0 +1,2 @@
+# R-code-for-COVID19-epidemic-model-
+This file contains the data for the novel coronavirus outbreak in Italy, UK, Germany, France and Spain and all the relevant R code to reproduce the figures and simulation results of the associated thesis. The data includes the number of confirmed cases, recovered cases and deaths in each European country. We used the standard Sequential Monte Carlo algorithm as well as Particle Markov Chain Monte Carlo to generate the possible development of the virus for a period of 210 days after the 2nd of February. 
