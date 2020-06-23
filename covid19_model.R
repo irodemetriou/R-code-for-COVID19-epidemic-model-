@@ -1,11 +1,5 @@
-install.packages("rjags")
-library(rjags)
 install.packages("devtools")
 library(devtools)
-install_github("lilywang1988/eSIR")
-library(eSIR) 
-
-setRepositories()
 install.packages("latex2exp")
 install.packages("ggpubr")
 library(invgamma)
@@ -13,6 +7,7 @@ library(ggplot2)
 library(latex2exp)
 library(ggpubr)
 
+setRepositories()
 # load data 
 data = as.data.frame(read.csv("/Users/irodemetriou/Desktop/Year 4/SIR /covid/WHO-COVID-19-global-data.csv"))
 data = data[c(-2,-4)]
@@ -43,8 +38,8 @@ lambda <- function(t, lam0, lam1) {lam0*(1- exp(-lam1*t))}
 kappa <- function(t, kap0, kap1) {kap0*exp(-kap1*t)}
 
 
-# transmission model
-seir.extended <- function(t,dt,alpha,beta,gamma,delta,X,J,lam0,lam1,kap0,kap1){
+# SEIQRD transmission model
+SEIQRDP <- function(t,dt,alpha,beta,gamma,delta,X,J,lam0,lam1,kap0,kap1){
   
   if (J == 1){
     S = X[1]
@@ -142,7 +137,7 @@ true.y <- function(tstar,J,T,S0,E0,I0,Q0,R0,D0,P0,alpha,beta,gamma,delta,lam0,la
       alphax <- alpha 
     }
     
-      myseir <- seir.extended(i,dt,alphax,beta,gamma,delta,x.true[i,1,],J=1,lam0,lam1,kap0,kap1)
+      myseir <- SEIQRDP(i,dt,alphax,beta,gamma,delta,x.true[i,1,],J=1,lam0,lam1,kap0,kap1)
     x.true[i+1,1,] = myseir$X
     proposed_y[i,1,1] = rnbinom(1, size = 7, mu = myseir$probs[1]*x.true[i+1,1,4])
     proposed_y[i,1,2] = rnbinom(1, size = 7, mu = myseir$probs[2]*x.true[i+1,1,5])
@@ -193,7 +188,7 @@ smc <- function(tstar,T,J,dt,alpha,beta,gamma,delta,S0,E0,I0,Q0,R0,D0,P0,lam0,la
     }
     
     
-    model <- seir.extended(i,dt,alphax,beta,gamma,delta,X[i,,],J,lam0,lam1,kap0,kap1)
+    model <- SEIQRDP(i,dt,alphax,beta,gamma,delta,X[i,,],J,lam0,lam1,kap0,kap1)
     X[i+1,,] <- model$X
     DN[i,,] <- model$dN
     
