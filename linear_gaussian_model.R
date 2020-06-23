@@ -494,8 +494,7 @@ hist(pex$thetas[,2],col=rgb(0,0,1,1/4),breaks = 40,freq = FALSE, xlab = expressi
 
 
 
-### Homework page 37
-# fix rho = 1 and let tau^2, sigma^2 have prior distirbution Inverse Gamma 
+####### fix rho = 1 and let tau^2, sigma^2 have prior distirbution Inverse Gamma 
 
 n = 1000
 b = 100
